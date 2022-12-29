@@ -16,8 +16,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from .jwt_tokens import MyTokenObtainPairView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')),
     path('api/v1/novels/',include('novel.urls')),
-    path('api-auth/', include('rest_framework.urls')) # to see sign in templete rather go to admin
+    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
 ]
+
+
+
+
+#     # if I want to take the token I should send request fron frontend to backend on this path
+
+
+
+# # the token has expire date after 15 min becuse that i want another path to refresh my token
